@@ -4,6 +4,8 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 
+import java.time.Duration;
+
 public class HomePage {
 
     // Otwiera stronę główną T-Mobile i zamyka baner cookies.
@@ -17,11 +19,15 @@ public class HomePage {
         Selenide.sleep(1500);
 
         String[] selectors = {
+            "#didomi-notice-agree-button",
+            "#didomi-notice-disagree-button",
                 "//button[contains(translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZĄĆĘŁŃÓŚŻŹ', 'abcdefghijklmnopqrstuvwxyząćęłńóśżź'), 'akceptuję wszystkie')]",
                 "//button[contains(translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZĄĆĘŁŃÓŚŻŹ', 'abcdefghijklmnopqrstuvwxyząćęłńóśżź'), 'akceptuję')]",
                 "//button[contains(translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZĄĆĘŁŃÓŚŻŹ', 'abcdefghijklmnopqrstuvwxyząćęłńóśżź'), 'zgadzam się')]",
                 "//button[contains(translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZĄĆĘŁŃÓŚŻŹ', 'abcdefghijklmnopqrstuvwxyząćęłńóśżź'), 'tylko niezbędne')]",
-                "#didomi-notice-disagree-button"
+            "//button[contains(translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'accept all')]",
+            "//button[contains(translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'only required')]",
+            "//button[contains(translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'settings')]"
         };
 
         for (String selector : selectors) {
@@ -32,6 +38,7 @@ public class HomePage {
 
                 if (element.exists() && element.isDisplayed()) {
                     element.shouldBe(Condition.visible).click();
+                    Selenide.$("#didomi-popup").shouldBe(Condition.hidden, Duration.ofSeconds(8));
                     System.out.println("Popup cookies zamknięty.");
                     return;
                 }
@@ -44,15 +51,10 @@ public class HomePage {
 
     // Otwiera sekcję Sklep z górnej belki strony.
     public void clickShop() {
-        Selenide.sleep(1000);
-
-        try {
-            Selenide.$("#didomi-popup").shouldNotBe(Condition.visible);
-        } catch (Exception ignored) {
-        }
+        closeCookiePopup();
 
         Selenide.sleep(1000);
-        SelenideElement shopButton = Selenide.$x("//button[normalize-space()='Sklep']");
+        SelenideElement shopButton = Selenide.$x("//button[normalize-space()='Sklep' or normalize-space()='Shop']");
         shopButton.shouldBe(Condition.visible);
 
         try {
