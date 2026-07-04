@@ -77,6 +77,12 @@ public class ShopSteps {
                 "Nazwa produktu w koszyku nie zgadza się. Oczekiwano: " + selectedProductName + ", Odczytano: " + cartProductName);
     }
 
+    // Krok techniczny do ręcznego sprawdzenia, czy hook @After loguje błąd i zamyka przeglądarkę.
+    @Then("wymuszam błąd testowy")
+    public void forceTestFailure() {
+        assertTrue(false, "Kontrolowany błąd testowy do weryfikacji hooka @After.");
+    }
+
     private String normalizeText(String value) {
         if (value == null) {
             return "";

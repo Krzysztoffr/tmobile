@@ -11,3 +11,10 @@ Feature: Wybranie telefonu z listy ofert
     And przechodzę na stronę główną
     And otwieram koszyk
     Then koszyk zawiera wybrane urządzenie
+
+  # Scenariusz techniczny: uruchamiaj tylko do sprawdzenia obsługi błędu i hooka @After.
+  @failure-demo
+  Scenario: Kontrolowany błąd do walidacji logowania i zamknięcia przeglądarki
+    Given otwieram przeglądarkę
+    And przechodzę na stronę T-Mobile
+    Then wymuszam błąd testowy

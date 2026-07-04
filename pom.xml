@@ -12,6 +12,7 @@
     <maven.compiler.source>21</maven.compiler.source>
     <maven.compiler.target>21</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <cucumber.filter.tags>not @failure-demo</cucumber.filter.tags>
 </properties>
 
     <dependencies>
@@ -75,6 +76,9 @@
                     <includes>
                         <include>**/*Test*.java</include>
                     </includes>
+                    <systemPropertyVariables>
+                        <cucumber.filter.tags>${cucumber.filter.tags}</cucumber.filter.tags>
+                    </systemPropertyVariables>
                 </configuration>
             </plugin>
 
